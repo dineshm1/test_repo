@@ -1,0 +1,78 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    name: postgres-docker
+    app: postgres-db
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+  type: NodePort
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: django-docker
+  labels:
+    name: django-web
+    app: django-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: postgres-data
+      app: postgres-db
+  template:
+    metadata:
+      labels:
+        name: postgres-deploy
+        app: postgres-db
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres
+          ports:
+            - containerPort: 5432
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: django-web
+spec:
+  selector:
+    name: django-docker
+    app: django-app
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 443
+  type: NodePort
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: django-docker
+  labels:
+    name: django-web
+    app: django-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: django-web
+      app: django-app
+  template:
+    metadata:
+      labels:
+        name: django-deploy
+        app: django-app
+    spec:
+      containers:
+        - name: django-container
+          image: docker.io/uzzal2k5/django-docker:1.2
+          ports:
+            - containerPort: 443
