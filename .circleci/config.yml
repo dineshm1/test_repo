@@ -11,4 +11,3 @@ jobs:
             docker build -t uzzal2k5/django-docker:$TAG .
             docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
             docker push uzzal2k5/django-docker:$TAG
-            docker push uzzal2k5/django-docker:latest
