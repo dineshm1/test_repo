@@ -1,0 +1,12 @@
+django-web:
+  build: .
+  container_name: django-docker
+  hostname: example.com
+  # Volume Persistance
+  volumes:
+    - /home/uzzal/PycharmProjects/example.com:/var/www/html
+    - /home/uzzal/PycharmProjects/example.com/nginx_log:/var/log/nginx
+
+  ports:
+    - 443:443/tcp
+  restart: always

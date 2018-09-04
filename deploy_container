@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+docker rm $(docker stop django-docker)
+docker run -itd  --name django-docker \
+ -v /home/uzzal/PycharmProjects/example.com:/var/www/html \
+ -v /home/uzzal/PycharmProjects/example.com/nginx_log:/var/log/nginx \
+ -p 4443:443 --restart always \
+ --hostname django-docker \
+ uzzal2k5/django-docker:latest
+docker exec -it django-docker bash -c "python /var/www/html/exampleapp/manage.py runserver &"
+
+
+
+
