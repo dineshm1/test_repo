@@ -1,0 +1,49 @@
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: djangoweb
+  labels:
+    app: djangoapp
+spec:
+  selector:
+    name: django-web
+    app: django-app
+  ports:
+  - protocol: TCP
+    port: 443
+    name: django-port
+    targetPort: 443
+  type: NodePort
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: django-docker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: django-web
+  template:
+    metadata:
+      labels:
+        name: django-web
+        app: django-app
+    spec:
+      volumes:
+        - name: django-content-storage
+          persistentVolumeClaim:
+            claimName: content-volume-claim
+      containers:
+        - name: django-container
+          image: docker.io/uzzal2k5/django-docker:0.1.4
+          ports:
+            - containerPort: 443
+              name: django-port
+          volumeMounts:
+            - mountPath: "/var/www/html"
+              name: django-content-storage
+
+

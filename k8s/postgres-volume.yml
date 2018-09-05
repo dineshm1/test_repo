@@ -1,0 +1,28 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+   name: postgres-volume
+   labels:
+      type: local
+spec:
+   storageClassName: manual
+   capacity:
+      storage: 10G
+   accessModes:
+      - ReadWriteOnce
+   hostPath:
+      path: "/var/postgres-container"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+   name: postgres-volume-claim
+spec:
+   storageClassName: manual
+   accessModes:
+      - ReadWriteOnce
+   resources:
+      requests:
+         storage: 9Gi
