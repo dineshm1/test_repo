@@ -1,4 +1,4 @@
-# Django With Kubernetes
+# Django With CI/CD (Docker Container & Kubernetes)
 
 Python based application development to production ship with kubernetes
 
@@ -342,7 +342,108 @@ Add domain name to hosts file
     //NODE END
     }
  
-   
+ #### DEPLOY WITH Kubernetes (K8S) ####
+ 
+ Deploy  kubernetes Cluster  [ Kubenrtenes Installation](https://uzzal2k5.github.io/kubernetes/), [GitHub Source](https://github.com/uzzal2k5/kubernetes)
+ 
+ 1. Create Volume that will use for Volume persistent  
+    
+    
+    cd k8s
+    kubectl apply -f django-volume.yml
+ 
+ Modify  <i>django-volume.yml</i> if needed
+
+    ---
+    kind: PersistentVolume
+    apiVersion: v1
+    metadata:
+       name: content-volume
+       labels:
+          type: local
+    spec:
+       storageClassName: manual
+       capacity:
+          storage: 10G
+       accessModes:
+          - ReadWriteOnce
+       hostPath:
+          path: "/var/django-container"
+    ---
+    kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+       name: content-volume-claim
+    spec:
+       storageClassName: manual
+       accessModes:
+          - ReadWriteOnce
+       resources:
+          requests:
+             storage: 3Gi 
+ 
+ 
+ 2. Deploy Django web application using kubectl command
+    
+    
+    kubectl apply -f django-deployment.yml
+ 
+ Modify  <i>django-deployment.yml</i> if needed
+     
+    ---
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: djangoweb
+      labels:
+        app: djangoapp
+    spec:
+      selector:
+        name: django-web
+        app: django-app
+      ports:
+      - protocol: TCP
+        port: 443
+        name: django-port
+        targetPort: 443
+      type: NodePort
+    
+    ---
+    apiVersion: apps/v1beta2
+    kind: Deployment
+    metadata:
+      name: django-docker
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          name: django-web
+      template:
+        metadata:
+          labels:
+            name: django-web
+            app: django-app
+        spec:
+          volumes:
+            - name: django-content-storage
+              persistentVolumeClaim:
+                claimName: content-volume-claim
+          containers:
+            - name: django-container
+              image: docker.io/uzzal2k5/django-docker:0.1.4
+              ports:
+                - containerPort: 443
+                  name: django-port
+              volumeMounts:
+                - mountPath: "/var/www/html"
+                  name: django-content-storage
+    
+    
+
+
+    
+     
+ 
  #### HELPS NEEDED ? ####
  
  Contact With
