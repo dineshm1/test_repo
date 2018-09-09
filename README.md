@@ -1,4 +1,4 @@
-# Django With CI/CD (Docker Container & Kubernetes)
+# Django With CI/CD (Docker Container & Kubernetes) #
 
 Python based application development to production ship with kubernetes
 
@@ -196,6 +196,7 @@ Run docker compose file to build and deploy your container
     
 * RUN DJANGO  WEB APPLICATION using runserver 
 
+        
         docker exec -it django-docker bash
         #/python /var/www/html/exampleapp/manage.py runserver &
         #/exit
@@ -218,15 +219,21 @@ Add domain name to hosts file
  
  Enjoy!!! 
  
- ####  CI/CD AUTOMATION ####
+ 
+#### CI/CD AUTOMATION ####
+ 
  
  *  Using<b> CircleCI </b>
  *  Using <b>Jenkins </b>
  
 
+
 ##### 1. Build With CircleCI  #####
- Create .circleci/config.yml into your github project repository -
+
+
+Create .circleci/config.yml into your github project repository -
  
+
  * .circleci/config.yml
   
   
@@ -245,15 +252,21 @@ Add domain name to hosts file
                 docker push uzzal2k5/django-docker:$TAG
 
  
+ 
+ 
  ##### 2. Build With Jenkins #####
  
+ 
  Create <b><i>Jenkinsfile</i></b> into your github repository root - 
+ 
     
-   * Jenkinsfile
+   *    Jenkinsfile
    
+ 
  
  Make changes on <i>DOCKER_BUILD_SERVER , DOCKER_IMAGE_REGISTRY, REPOSITORY_NAME </i> according to your servers and repositories -
     
+ 
     #!groovy
     import groovy.json.JsonSlurperClassic
     def DOCKER_BUILD_SERVER = "tcp://10.10.10.10:2376"
@@ -343,9 +356,15 @@ Add domain name to hosts file
     //NODE END
     }
  
+ 
+ 
  #### DEPLOY WITH Kubernetes (K8S) ####
  
+ 
+ 
  Deploy  kubernetes Cluster  [ Kubenrtenes Installation](https://uzzal2k5.github.io/kubernetes/), [GitHub Source](https://github.com/uzzal2k5/kubernetes)
+ 
+ 
  
  1. Create Volume that will use for Volume persistent  
     
@@ -353,8 +372,12 @@ Add domain name to hosts file
     cd k8s
     kubectl apply -f django-volume.yml
  
+ 
+ 
  Modify  <i>django-volume.yml</i> if needed
 
+ 
+ 
     ---
     kind: PersistentVolume
     apiVersion: v1
@@ -384,12 +407,16 @@ Add domain name to hosts file
              storage: 3Gi 
  
  
+ 
  2. Deploy Django web application using kubectl command
     
     
     kubectl apply -f django-deployment.yml
  
+ 
+ 
  Modify  <i>django-deployment.yml</i> if needed
+ 
      
     ---
     kind: Service
@@ -441,17 +468,17 @@ Add domain name to hosts file
     
     
 
-
-    
+  
      
  
 <b> HELPS NEEDED !! </b>
  
+ 
  Contact With
     
-   *   GitHub:  https://github.com/uzzal2k5
-   *   E-Mail: uzzal2k5@gmail.com
-   *   Skype / Hangout : uzzal2k5
-   * LinkedIn: https://www.linkedin.com/in/uzzal2k5/
+   *   GitHub:  [https://github.com/uzzal2k5](https://github.com/uzzal2k5)
+   *   E-Mail: [uzzal2k5@gmail.com](uzzal2k5@gmail.com)
+   *   Skype / Hangout : [uzzal2k5](uzzal2k5)
+   *   LinkedIn: [https://www.linkedin.com/in/uzzal2k5/](https://www.linkedin.com/in/uzzal2k5/)
     
  
