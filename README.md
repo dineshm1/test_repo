@@ -254,8 +254,8 @@ Create .circleci/config.yml into your github project repository -
  
  
  
- ##### 2. Build With Jenkins #####
- 
+<b> 2. Build With Jenkins </b>
+ <br>
  
  Create <b><i>Jenkinsfile</i></b> into your github repository root - 
  
@@ -358,8 +358,7 @@ Create .circleci/config.yml into your github project repository -
  
  
  
- #### DEPLOY WITH Kubernetes (K8S) ####
- 
+<b> DEPLOY WITH Kubernetes (K8S) </b>
  
  
  Deploy  kubernetes Cluster  [ Kubenrtenes Installation](https://uzzal2k5.github.io/kubernetes/), [GitHub Source](https://github.com/uzzal2k5/kubernetes)
